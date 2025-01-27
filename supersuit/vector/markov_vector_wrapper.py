@@ -4,10 +4,11 @@ from gymnasium.vector.utils import concatenate, create_empty_array, iterate
 
 
 class MarkovVectorEnv(gymnasium.vector.VectorEnv):
-    def __init__(self, par_env, black_death=False):
+    def __init__(self, par_env, array_act: bool, black_death=False):
         """
         parameters:
             - par_env: the pettingzoo Parallel environment that will be converted to a gymnasium vector environment
+            - array_act: whether to pass actions as arrays or as single values
             - black_death: whether to give zero valued observations and 0 rewards when an agent is done, allowing for environments with multiple numbers of agents.
                             Is equivalent to adding the black death wrapper, but somewhat more efficient.
 
@@ -63,7 +64,8 @@ class MarkovVectorEnv(gymnasium.vector.VectorEnv):
         actions = list(iterate(self.action_space, actions))
         agent_set = set(self.par_env.agents)
         act_dict = {
-            agent: np.array(actions[i]).reshape(-1)  # force array not scalar
+            # agent: np.array(actions[i]).reshape(-1)  # force array not scalar
+            agent: np.array(actions[i]).reshape(-1) if self.array_act else actions[i]
             for i, agent in enumerate(self.par_env.possible_agents)
             if agent in agent_set
         }

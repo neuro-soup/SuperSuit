@@ -63,10 +63,11 @@ class ConcatVecEnv(gymnasium.vector.VectorEnv):
         )
 
     def concatenate_actions(self, actions, n_actions):
+        out = create_empty_array(self.action_space, n=n_actions)
+        out = out.squeeze(-1) if self.action_space.shape == (1,) else out
         return concatenate(
             self.action_space,
             actions,
-            create_empty_array(self.action_space, n=n_actions).squeeze(-1),
         )
 
     def step_async(self, actions):
