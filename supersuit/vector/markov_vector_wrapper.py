@@ -63,7 +63,7 @@ class MarkovVectorEnv(gymnasium.vector.VectorEnv):
         actions = list(iterate(self.action_space, actions))
         agent_set = set(self.par_env.agents)
         act_dict = {
-            agent: actions[i]
+            agent: np.array(actions[i]).reshape(-1)  # force array not scalar
             for i, agent in enumerate(self.par_env.possible_agents)
             if agent in agent_set
         }
