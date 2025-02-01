@@ -68,6 +68,7 @@ class ConcatVecEnv(gymnasium.vector.VectorEnv):
         return concatenate(
             self.action_space,
             actions,
+            out,
         )
 
     def step_async(self, actions):
