@@ -30,6 +30,7 @@ class MarkovVectorEnv(gymnasium.vector.VectorEnv):
             for agent in par_env.possible_agents
         ), "action spaces not consistent. Perhaps you should wrap with `supersuit.multiagent_wrappers.pad_action_space_v0`?"
         self.num_envs = len(par_env.possible_agents)
+        self.array_act = array_act
         self.black_death = black_death
 
     def concat_obs(self, obs_dict):
